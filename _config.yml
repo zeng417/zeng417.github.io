@@ -1,19 +1,12 @@
 # 站点信息
 title: 我的学习Vlog
 description: 记录学习与生活的点滴
-url: "https://zeng417.github.io"
-baseurl: ""
 
 # 作者信息
 author:
   name: zeng417
   avatar: "https://avatars.githubusercontent.com/zeng417"
   bio: "记录学习与生活的点滴"
-
-# 社交链接
-social:
-  github: https://github.com/zeng417
-  email: mailto:zeng417@example.com
 
 # 时区与语言
 timezone: Asia/Shanghai
@@ -62,7 +55,7 @@ kramdown:
     block:
       line_numbers: false
 
-# 社交 SEO
+# 社交链接
 social:
   name: zeng417
   links:
