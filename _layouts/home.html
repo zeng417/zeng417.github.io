@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<ul class="post-list">
+  {% for post in paginator.posts %}
+  <li class="post-list-item">
+    <span class="post-date">{{ post.date | date: '%Y年%m月%d日' }}</span>
+    <h2 class="post-title">
+      <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+    </h2>
+    {% if post.description %}
+    <p class="post-excerpt">{{ post.description }}</p>
+    {% else %}
+    <p class="post-excerpt">{{ post.content | strip_html | truncatewords: 40 }}</p>
+    {% endif %}
+  </li>
+  {% else %}
+  <li class="post-list-item">
+    <p class="post-excerpt">还没有文章，快去 _posts 文件夹写第一篇吧！</p>
+  </li>
+  {% endfor %}
+</ul>
+
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+  <a href="{{ paginator.previous_page_path | relative_url }}">&larr; 上一页</a>
+  {% else %}
+  <span>&larr; 上一页</span>
+  {% endif %}
+
+  <span>{{ paginator.page }} / {{ paginator.total_pages }}</span>
+
+  {% if paginator.next_page %}
+  <a href="{{ paginator.next_page_path | relative_url }}">下一页 &rarr;</a>
+  {% else %}
+  <span>下一页 &rarr;</span>
+  {% endif %}
+</div>
+{% endif %}

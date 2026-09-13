@@ -1,0 +1,15 @@
+<header class="site-header">
+  <div class="container">
+    <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    {% if site.description %}
+    <p class="site-description">{{ site.description }}</p>
+    {% endif %}
+    <nav class="site-nav">
+      <a href="{{ '/' | relative_url }}">首页</a>
+      <a href="{{ '/about.html' | relative_url }}">关于</a>
+      {% if site.social.links.first %}
+      <a href="{{ site.social.links.first }}" target="_blank">GitHub</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>

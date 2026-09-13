@@ -1,0 +1,67 @@
+# 站点信息
+title: 我的学习Vlog
+description: 记录学习与生活的点滴
+url: "https://zeng417.github.io"
+baseurl: ""
+
+# 作者信息
+author:
+  name: zeng417
+  email: zeng417@example.com
+
+# 时区与语言
+timezone: Asia/Shanghai
+lang: zh-CN
+
+# Markdown 处理器
+markdown: kramdown
+highlighter: rouge
+
+# 永久链接格式
+permalink: /:year/:month/:day/:title/
+
+# 分页
+plugins:
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-feed
+
+paginate: 5
+paginate_path: "/page:num/"
+
+# 排除不需要构建的文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - README.md
+  - .git
+
+# 文章默认布局
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: zeng417
+
+# kramdown 配置
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+# SEO
+social:
+  name: zeng417
+  links:
+    - https://github.com/zeng417
+
+# 构建配置
+sass:
+  style: compressed
