@@ -1,6 +1,6 @@
 <header class="navbar">
   <div class="nav-container">
-    <a class="nav-brand" href="/">
+    <a class="nav-brand" href="{{ '/' | relative_url }}">
       <img class="nav-avatar" src="{{ site.author.avatar }}" alt="{{ site.author.name }}">
       <div>
         <span class="nav-logo">{{ site.title }}</span>
@@ -8,8 +8,8 @@
       </div>
     </a>
     <nav class="nav-links">
-      <a href="/">首页</a>
-      <a href="/about.html">关于</a>
+      <a href="{{ '/' | relative_url }}">首页</a>
+      <a href="{{ '/about.html' | relative_url }}">关于</a>
       <a href="{{ site.social.links.first }}" target="_blank">GitHub</a>
     </nav>
     <div class="nav-actions">

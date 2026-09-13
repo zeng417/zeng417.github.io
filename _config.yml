@@ -2,6 +2,7 @@
 title: 我的学习Vlog
 description: 记录学习与生活的点滴
 url: "https://zeng417.github.io"
+baseurl: ""
 
 # 作者信息
 author:
