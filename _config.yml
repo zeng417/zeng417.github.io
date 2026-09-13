@@ -7,7 +7,13 @@ baseurl: ""
 # 作者信息
 author:
   name: zeng417
-  email: zeng417@example.com
+  avatar: "https://avatars.githubusercontent.com/zeng417"
+  bio: "记录学习与生活的点滴"
+
+# 社交链接
+social:
+  github: https://github.com/zeng417
+  email: mailto:zeng417@example.com
 
 # 时区与语言
 timezone: Asia/Shanghai
@@ -26,7 +32,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-feed
 
-paginate: 5
+paginate: 6
 paginate_path: "/page:num/"
 
 # 排除不需要构建的文件
@@ -56,7 +62,7 @@ kramdown:
     block:
       line_numbers: false
 
-# SEO
+# 社交 SEO
 social:
   name: zeng417
   links:

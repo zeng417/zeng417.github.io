@@ -1,15 +1,46 @@
-<header class="site-header">
-  <div class="container">
-    <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-    {% if site.description %}
-    <p class="site-description">{{ site.description }}</p>
-    {% endif %}
-    <nav class="site-nav">
+<header class="navbar">
+  <div class="nav-container">
+    <a class="nav-brand" href="{{ '/' | relative_url }}">
+      <img class="nav-avatar" src="{{ site.author.avatar }}" alt="{{ site.author.name }}">
+      <div>
+        <span class="nav-logo">{{ site.title }}</span>
+        <span class="nav-tagline">{{ site.description }}</span>
+      </div>
+    </a>
+    <nav class="nav-links">
       <a href="{{ '/' | relative_url }}">首页</a>
       <a href="{{ '/about.html' | relative_url }}">关于</a>
-      {% if site.social.links.first %}
       <a href="{{ site.social.links.first }}" target="_blank">GitHub</a>
-      {% endif %}
     </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
   </div>
 </header>
+<script>
+  function toggleTheme() {
+    var root = document.documentElement;
+    var current = root.getAttribute('data-theme');
+    if (current === 'dark') {
+      root.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+      document.querySelector('.icon-sun').style.display = '';
+      document.querySelector('.icon-moon').style.display = 'none';
+    } else {
+      root.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      document.querySelector('.icon-sun').style.display = 'none';
+      document.querySelector('.icon-moon').style.display = '';
+    }
+  }
+  (function() {
+    var theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      document.querySelector('.icon-sun').style.display = 'none';
+      document.querySelector('.icon-moon').style.display = '';
+    }
+  })();
+</script>

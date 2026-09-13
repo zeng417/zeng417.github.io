@@ -1,17 +1,32 @@
 ---
 layout: default
 ---
-<article class="post">
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      {{ page.date | date: '%Y年%m月%d日' }}
-      {% if page.author %} · {{ page.author }}{% endif %}
-      {% if page.categories %} · {{ page.categories | join: ' / ' }}{% endif %}
-    </p>
-  </header>
+<article class="post-detail">
+  <div class="container">
+    <header class="post-detail-header">
+      <span class="post-detail-category">{{ page.categories | first | default: '随笔' }}</span>
+      <h1 class="post-detail-title">{{ page.title | escape }}</h1>
+      <div class="post-detail-meta">
+        <span class="meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          {{ page.author | default: site.author.name }}
+        </span>
+        <span class="meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+          {{ page.date | date: '%Y-%m-%d' }}
+        </span>
+      </div>
+    </header>
 
-  <div class="post-content">
-    {{ content }}
+    <div class="post-detail-content">
+      {{ content }}
+    </div>
+
+    <footer class="post-detail-footer">
+      <a href="{{ '/' | relative_url }}" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        返回首页
+      </a>
+    </footer>
   </div>
 </article>

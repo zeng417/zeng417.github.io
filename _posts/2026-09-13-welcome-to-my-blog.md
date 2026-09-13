@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "你好，世界 —— 博客的第一篇文章"
+title: "欢迎来到我的博客"
 date: 2026-09-13 14:00:00 +0800
-categories: 随笔
-description: "这是我博客的第一篇文章，记录从零搭建这个博客的过程。"
+categories: [随笔]
+description: "这是博客的第一篇文章，记录从零搭建这个博客的过程。"
 ---
 
 ## 开始
@@ -30,20 +30,19 @@ description: "这是我博客的第一篇文章，记录从零搭建这个博客
 - **Markdown** —— 写作语法
 - **SCSS** —— 样式管理
 
-## Markdown 语法示例
+## 代码示例
 
-文章用 Markdown 语法编写，非常简单：
+```bash
+# 本地启动
+bundle exec jekyll serve
 
-```markdown
-# 标题
-## 小标题
+# 写新文章
+# 在 _posts 目录下创建 YYYY-MM-DD-标题.md
 
-**加粗**、*斜体*、~~删除线~~
-
-- 列表项一
-- 列表项二
-
-[链接](https://github.com)
+# 推送到 GitHub
+git add .
+git commit -m "新文章"
+git push
 ```
 
 ## 接下来
