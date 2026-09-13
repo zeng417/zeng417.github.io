@@ -1,13 +1,13 @@
 # 站点信息
-title: 我的学习Vlog
-description: 记录学习与生活的点滴
+title: 我的博客
+description: 记录学习的点点滴滴
 url: "https://zeng417.github.io"
 baseurl: ""
 
 # 作者信息
 author:
-  name: zeng417
-  avatar: "https://avatars.githubusercontent.com/zeng417"
+  name: zeng
+  avatar: "/assets/images/my-avatar.jpg"
   bio: "记录学习与生活的点滴"
 
 # 时区与语言

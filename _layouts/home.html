@@ -10,10 +10,12 @@ layout: default
       <span>✓</span>
       <span>欢迎来到我的博客</span>
     </div>
-    <img class="hero-avatar" src="{{ site.author.avatar }}" alt="{{ site.author.name }}">
+    <div class="hero-profile">
+      <img class="hero-avatar" src="{{ site.author.avatar }}" alt="{{ site.author.name }}">
+      <span class="hero-name">{{ site.author.name }}</span>
+    </div>
     <h1 class="hero-title">{{ site.title }}</h1>
     <p class="hero-subtitle">{{ site.description }}</p>
-    <p class="hero-name">{{ site.author.name }}</p>
     <p class="hero-bio">{{ site.author.bio }}</p>
     <div class="hero-social">
       <a href="{{ site.social.links.first }}" target="_blank" title="GitHub">
