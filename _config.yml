@@ -67,3 +67,18 @@ social:
 # 构建配置
 sass:
   style: compressed
+
+# 评论（giscus，基于 GitHub Discussions）
+# 启用步骤：仓库 Settings → General → Features 勾选 Discussions，
+# 然后到 https://giscus.app 填仓库名，把生成的 repo_id / category_id 填到下面
+comments:
+  enabled: false
+  giscus:
+    repo: zeng417/zeng417.github.io
+    repo_id: ""
+    category: Comments
+    category_id: ""
+    mapping: pathname
+    input_position: top
+    theme: preferred_color_scheme
+    lang: zh-CN

@@ -49,6 +49,11 @@ layout: default
   <div class="post-grid" id="post-grid">
     {% for post in paginator.posts %}
     <a class="post-card" href="{{ post.url | relative_url }}" data-category="{{ post.categories | first | slugify }}">
+      {% if post.image %}
+      <div class="post-card-cover">
+        <img src="{{ post.image | relative_url }}" alt="" loading="lazy">
+      </div>
+      {% endif %}
       <div class="post-card-body">
         <span class="post-card-category">{{ post.categories | first | default: '随笔' }}</span>
         <h2 class="post-card-title">{{ post.title | escape }}</h2>

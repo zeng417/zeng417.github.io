@@ -51,6 +51,20 @@
     }
   }
 
+
+  // ===== 标题锚点 =====
+  if (content) {
+    content.querySelectorAll('h2, h3').forEach(function (h) {
+      if (!h.id) return;
+      var a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = '#' + h.id;
+      a.textContent = '#';
+      a.setAttribute('aria-label', '本小节链接');
+      h.appendChild(a);
+    });
+  }
+
   // ===== 代码复制 =====
   if (content) {
     content.querySelectorAll('pre').forEach(function (pre) {
@@ -124,5 +138,127 @@
         card.style.display = show ? '' : 'none';
       });
     });
+  }
+})();
+
+// ===== 站内搜索 =====
+(function () {
+  var input = document.getElementById('search-input');
+  var results = document.getElementById('search-results');
+  if (!input || !results) return;
+
+  var hint = document.getElementById('search-hint');
+  var indexUrl = results.getAttribute('data-index') || '/search.json';
+  var posts = null;
+  var loading = false;
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function highlight(text, terms) {
+    var html = escapeHtml(text);
+    terms.forEach(function (t) {
+      if (!t) return;
+      var re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      html = html.replace(re, '<mark>$1</mark>');
+    });
+    return html;
+  }
+
+  function load(done) {
+    if (posts) return done();
+    if (loading) return;
+    loading = true;
+    hint.textContent = '正在加载索引…';
+    fetch(indexUrl)
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        posts = data;
+        hint.textContent = '输入关键词开始搜索';
+        done();
+      })
+      .catch(function () {
+        hint.textContent = '索引加载失败，请刷新页面重试';
+      });
+  }
+
+  function snippet(post, terms) {
+    var text = post.content || post.description || '';
+    var idx = -1;
+    terms.forEach(function (t) {
+      var i = text.toLowerCase().indexOf(t);
+      if (i >= 0 && (idx < 0 || i < idx)) idx = i;
+    });
+    if (idx < 0) idx = 0;
+    var start = Math.max(0, idx - 50);
+    return (start > 0 ? '…' : '') + text.slice(start, start + 160) + '…';
+  }
+
+  function render(list, terms) {
+    if (!terms.length) {
+      results.innerHTML = '';
+      hint.textContent = '输入关键词开始搜索';
+      return;
+    }
+    if (!list.length) {
+      results.innerHTML = '';
+      hint.textContent = '没有找到匹配的文章，换个关键词试试';
+      return;
+    }
+    hint.textContent = '找到 ' + list.length + ' 篇文章';
+    results.innerHTML = list.map(function (post) {
+      return '<a class="search-result" href="' + post.url + '">' +
+        '<div class="search-result-top">' +
+          '<span class="search-result-cat">' + escapeHtml(post.category) + '</span>' +
+          '<time>' + escapeHtml(post.date) + '</time>' +
+        '</div>' +
+        '<h2 class="search-result-title">' + highlight(post.title, terms) + '</h2>' +
+        '<p class="search-result-snippet">' + highlight(snippet(post, terms), terms) + '</p>' +
+      '</a>';
+    }).join('');
+  }
+
+  function run() {
+    var q = input.value.trim().toLowerCase();
+    if (!q) return render([], []);
+    load(function () {
+      var terms = q.split(/\s+/).filter(Boolean);
+      var scored = [];
+      posts.forEach(function (post) {
+        var title = (post.title || '').toLowerCase();
+        var cat = (post.category || '').toLowerCase();
+        var desc = (post.description || '').toLowerCase();
+        var body = (post.content || '').toLowerCase();
+        var haystack = title + ' ' + cat + ' ' + desc + ' ' + body;
+        var ok = terms.every(function (t) { return haystack.indexOf(t) >= 0; });
+        if (!ok) return;
+        var score = 0;
+        terms.forEach(function (t) {
+          if (title.indexOf(t) >= 0) score += 12;
+          if (cat.indexOf(t) >= 0) score += 6;
+          if (desc.indexOf(t) >= 0) score += 4;
+          if (body.indexOf(t) >= 0) score += 1;
+        });
+        scored.push({ post: post, score: score });
+      });
+      scored.sort(function (a, b) { return b.score - a.score; });
+      render(scored.map(function (s) { return s.post; }), terms);
+    });
+  }
+
+  var timer = null;
+  input.addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(run, 120);
+  });
+
+  // 从 ?q= 预填（便于搜索链接分享）
+  var preset = new URLSearchParams(location.search).get('q');
+  if (preset) {
+    input.value = preset;
+    run();
   }
 })();

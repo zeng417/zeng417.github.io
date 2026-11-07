@@ -30,6 +30,12 @@ layout: default
       </div>
     </header>
 
+    {% if page.image %}
+    <figure class="post-cover">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}">
+    </figure>
+    {% endif %}
+
     <div class="post-body">
       <div class="post-detail-content" id="post-content">
         {{ content }}
@@ -69,5 +75,7 @@ layout: default
         返回首页
       </a>
     </footer>
+
+    {% include comments.html %}
   </div>
 </article>
