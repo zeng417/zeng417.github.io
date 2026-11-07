@@ -40,6 +40,7 @@ exclude:
   - .sass-cache
   - README.md
   - .git
+  - .dsh
 
 # 文章默认布局
 defaults:
