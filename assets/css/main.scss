@@ -1484,3 +1484,12 @@ body { letter-spacing: 0.008em; }
 
   &:not(:empty) { margin-top: 1.5rem; }
 }
+
+// giscus 评论框占满容器宽度
+.comments {
+  .giscus,
+  .giscus-frame {
+    width: 100% !important;
+    min-height: 180px;
+  }
+}
