@@ -285,13 +285,6 @@ function initSearch(opts) {
 }
 
 initSearch({
-  input: 'search-input',
-  results: 'search-results',
-  hint: 'search-hint',
-  clear: 'search-clear'
-});
-
-initSearch({
   input: 'home-search-input',
   results: 'home-search-results',
   hint: 'home-search-hint',
