@@ -1,14 +1,16 @@
 {% assign g = site.comments.giscus %}
+{% assign mapping = include.mapping | default: g.mapping | default: 'pathname' %}
+{% assign term = include.term | default: '' %}
 {% if site.comments.enabled and g.repo_id and g.repo_id != "" and g.category_id and g.category_id != "" %}
 <section class="comments" id="comments">
-  <h2 class="comments-title">评论</h2>
+  <h2 class="comments-title">{{ include.title | default: '评论' }}</h2>
   <script src="https://giscus.app/client.js"
           data-repo="{{ g.repo }}"
           data-repo-id="{{ g.repo_id }}"
           data-category="{{ g.category }}"
           data-category-id="{{ g.category_id }}"
-          data-mapping="{{ g.mapping | default: 'pathname' }}"
-          data-strict="0"
+          data-mapping="{{ mapping }}"
+          {% if mapping == 'specific' %}data-term="{{ term }}" data-strict="1"{% else %}data-strict="0"{% endif %}
           data-reactions-enabled="1"
           data-emit-metadata="0"
           data-input-position="{{ g.input_position | default: 'top' }}"

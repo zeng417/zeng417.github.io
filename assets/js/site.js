@@ -141,16 +141,20 @@
   }
 })();
 
-// ===== 站内搜索 =====
-(function () {
-  var input = document.getElementById('search-input');
-  var results = document.getElementById('search-results');
-  if (!input || !results) return;
+// ===== 站内搜索（首页与搜索页共用） =====
+function initSearch(opts) {
+  var input = document.getElementById(opts.input);
+  var results = document.getElementById(opts.results);
+  if (!input || !results) return null;
 
-  var hint = document.getElementById('search-hint');
+  var hint = document.getElementById(opts.hint);
+  var hideWhenEmpty = opts.hideWhenEmpty ? document.querySelectorAll(opts.hideWhenEmpty) : [];
+  var clearBtn = opts.clear ? document.getElementById(opts.clear) : null;
   var indexUrl = results.getAttribute('data-index') || '/search.json';
+  var idleHint = hint ? hint.textContent : '';
   var posts = null;
   var loading = false;
+  var timer = null;
 
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {
@@ -172,16 +176,16 @@
     if (posts) return done();
     if (loading) return;
     loading = true;
-    hint.textContent = '正在加载索引…';
+    if (hint) hint.textContent = '正在加载索引…';
     fetch(indexUrl)
       .then(function (r) { return r.json(); })
       .then(function (data) {
         posts = data;
-        hint.textContent = '输入关键词开始搜索';
+        if (hint) hint.textContent = idleHint;
         done();
       })
       .catch(function () {
-        hint.textContent = '索引加载失败，请刷新页面重试';
+        if (hint) hint.textContent = '索引加载失败，请刷新页面重试';
       });
   }
 
@@ -197,18 +201,28 @@
     return (start > 0 ? '…' : '') + text.slice(start, start + 160) + '…';
   }
 
+  function toggleEmpty(empty) {
+    Array.prototype.forEach.call(hideWhenEmpty, function (el) {
+      el.hidden = !empty;
+    });
+  }
+
   function render(list, terms) {
     if (!terms.length) {
       results.innerHTML = '';
-      hint.textContent = '输入关键词开始搜索';
+      toggleEmpty(true);
+      if (hint) hint.textContent = idleHint;
+      if (clearBtn) clearBtn.hidden = true;
       return;
     }
+    toggleEmpty(false);
+    if (clearBtn) clearBtn.hidden = false;
     if (!list.length) {
       results.innerHTML = '';
-      hint.textContent = '没有找到匹配的文章，换个关键词试试';
+      if (hint) hint.textContent = '没有找到匹配的文章，换个关键词试试';
       return;
     }
-    hint.textContent = '找到 ' + list.length + ' 篇文章';
+    if (hint) hint.textContent = '找到 ' + list.length + ' 篇文章';
     results.innerHTML = list.map(function (post) {
       return '<a class="search-result" href="' + post.url + '">' +
         '<div class="search-result-top">' +
@@ -233,8 +247,7 @@
         var desc = (post.description || '').toLowerCase();
         var body = (post.content || '').toLowerCase();
         var haystack = title + ' ' + cat + ' ' + desc + ' ' + body;
-        var ok = terms.every(function (t) { return haystack.indexOf(t) >= 0; });
-        if (!ok) return;
+        if (!terms.every(function (t) { return haystack.indexOf(t) >= 0; })) return;
         var score = 0;
         terms.forEach(function (t) {
           if (title.indexOf(t) >= 0) score += 12;
@@ -249,16 +262,47 @@
     });
   }
 
-  var timer = null;
   input.addEventListener('input', function () {
     clearTimeout(timer);
     timer = setTimeout(run, 120);
   });
 
-  // 从 ?q= 预填（便于搜索链接分享）
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      input.value = '';
+      run();
+      input.focus();
+    });
+  }
+
   var preset = new URLSearchParams(location.search).get('q');
   if (preset) {
     input.value = preset;
     run();
   }
-})();
+
+  return { run: run, input: input };
+}
+
+initSearch({
+  input: 'search-input',
+  results: 'search-results',
+  hint: 'search-hint',
+  clear: 'search-clear'
+});
+
+initSearch({
+  input: 'home-search-input',
+  results: 'home-search-results',
+  hint: 'home-search-hint',
+  clear: 'home-search-clear',
+  hideWhenEmpty: '#home-posts, .home-toolbar'
+});
+
+// 按下 "/" 聚焦首页搜索框
+document.addEventListener('keydown', function (e) {
+  var homeInput = document.getElementById('home-search-input');
+  if (!homeInput || e.key !== '/' || /input|textarea/i.test(document.activeElement.tagName)) return;
+  e.preventDefault();
+  homeInput.focus();
+});

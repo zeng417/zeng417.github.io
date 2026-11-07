@@ -26,10 +26,22 @@ layout: default
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>
       </a>
     </div>
+    <!-- 首页搜索 -->
+    <div class="home-search-wrap">
+      <form class="home-search" role="search" onsubmit="return false;">
+        <svg class="home-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="home-search-input" type="search" autocomplete="off"
+               placeholder="搜索文章：ROS2、MQTT、代价地图…" aria-label="搜索文章">
+        <button type="button" class="home-search-clear" id="home-search-clear" aria-label="清空搜索" hidden>&times;</button>
+      </form>
+      <p class="search-hint" id="home-search-hint">支持标题、标签、正文关键词，多个词用空格隔开</p>
+    </div>
   </div>
 </section>
 
 <div class="container">
+  <div class="search-results home-search-results" id="home-search-results" data-index="{{ '/search.json' | relative_url }}"></div>
+
   <!-- 概览 + 分类筛选 -->
   <div class="home-toolbar">
     <div class="home-stats">
@@ -45,6 +57,7 @@ layout: default
     </div>
   </div>
 
+  <div id="home-posts">
   <!-- 文章卡片网格 -->
   <div class="post-grid" id="post-grid">
     {% for post in paginator.posts %}
@@ -95,4 +108,5 @@ layout: default
     {% endif %}
   </div>
   {% endif %}
+  </div>
 </div>

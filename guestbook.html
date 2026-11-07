@@ -1,0 +1,18 @@
+---
+layout: page
+title: 留言板
+permalink: /guestbook.html
+---
+
+<div class="guestbook-intro">
+  <p>随便聊：文章里的疑问、想让我写的话题、找茬纠错，都放这儿。</p>
+  <p class="guestbook-note">留言用 GitHub 账号登录，内容会同步到仓库的 Discussions 里，公开可查。</p>
+</div>
+
+{% unless site.comments.enabled %}
+<p class="guestbook-pending">
+  留言板还没启用（站长需要在 GitHub 上开启 Discussions 并配置 giscus）。配好后这里会直接出现留言框，不用改这个页面。
+</p>
+{% endunless %}
+
+{% include comments.html mapping="specific" term="guestbook" title="留言" %}
