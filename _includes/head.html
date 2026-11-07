@@ -2,12 +2,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#4a90d9">
-  <title>{{ site.title }}</title>
-  <meta name="description" content="{{ site.description }}">
+  {%- seo -%}
+  <link rel="icon" type="image/jpeg" href="{{ site.author.avatar | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
   <script>
-    (function() {
+    (function () {
+      // 支持 ?theme=dark / ?theme=light 覆盖，并记住选择
+      var param = new URLSearchParams(location.search).get('theme');
+      if (param === 'dark' || param === 'light') localStorage.setItem('theme', param);
       var theme = localStorage.getItem('theme');
       if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     })();

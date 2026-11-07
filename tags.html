@@ -1,0 +1,32 @@
+---
+layout: default
+title: 标签
+permalink: /tags.html
+description: 按标签浏览全部文章
+---
+<div class="container page-block">
+  <header class="page-head">
+    <h1>标签</h1>
+    <p class="page-head-sub">共 {{ site.posts.size }} 篇文章 · {{ site.categories.size }} 个标签</p>
+  </header>
+
+  <div class="tag-cloud">
+    {% for category in site.categories %}
+    <a class="tag-chip" href="#{{ category[0] | slugify }}">{{ category[0] }}<span class="chip-count">{{ category[1].size }}</span></a>
+    {% endfor %}
+  </div>
+
+  {% for category in site.categories %}
+  <section class="tag-section" id="{{ category[0] | slugify }}">
+    <h2 class="tag-section-title">{{ category[0] }}</h2>
+    <ul class="tag-post-list">
+      {% for post in category[1] %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y-%m-%d' }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>

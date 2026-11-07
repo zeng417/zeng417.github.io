@@ -1,0 +1,28 @@
+---
+layout: default
+title: 归档
+permalink: /archive.html
+description: 按时间归档的全部文章
+---
+<div class="container page-block">
+  <header class="page-head">
+    <h1>归档</h1>
+    <p class="page-head-sub">共 {{ site.posts.size }} 篇文章</p>
+  </header>
+
+  {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+  {% for year in posts_by_year %}
+  <section class="archive-year">
+    <h2 class="archive-year-title">{{ year.name }}<span class="chip-count">{{ year.items.size }}</span></h2>
+    <ul class="archive-list">
+      {% for post in year.items %}
+      <li>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%m-%d' }}</time>
+        <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+        <span class="archive-cat">{{ post.categories | first }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>
