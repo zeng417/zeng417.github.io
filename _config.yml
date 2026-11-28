@@ -69,6 +69,9 @@ social:
 sass:
   style: compressed
 
+# 允许构建「未来日期」的文章：便于提前按约定日期发布（如周日文章在周六上线）
+future: true
+
 # 评论（giscus，基于 GitHub Discussions）
 # 启用步骤：仓库 Settings → General → Features 勾选 Discussions，
 # 然后到 https://giscus.app 填仓库名，把生成的 repo_id / category_id 填到下面
