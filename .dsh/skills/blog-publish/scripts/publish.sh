@@ -32,7 +32,7 @@ case "$DRAFT" in
 esac
 
 SLUG="$(basename "$DRAFT" .md)"
-TODAY="$(TZ=Asia/Shanghai date +%F)"
+TODAY="${POST_DATE:-$(TZ=Asia/Shanghai date +%F)}"
 
 python3 "$SKILL_DIR/scripts/validate.py" "$DRAFT" || die "草稿校验未通过，先修问题"
 
